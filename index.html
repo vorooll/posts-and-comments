@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My ListBuilder</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+    <!-- <script src="local/angular.min.js"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="local/bootstrap.min.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Open+Sans+Condensed:300" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+  </head>
+  <body ng-app="ListBuilder">
+    <div class="container-fluid" ng-controller="MainController">
+      <div class="row">
+        <div class="col-sm-6 column-for-items">
+          <div class="column-box" id="items-box">
+            <div class="heading">
+              <h2>Items</h2>
+            </div>
+            <div class="main">
+              <form name="my_item" class="my-form">
+                <div class="input-group">
+                  <label for="new item"></label>
+                  <input class="form-control new-item" ng-model="newItem" placeholder="{{itemPlaceholder}}">
+                  <span class="input-group-btn" id="button-aqua-wrap">
+                  <button class="btn btn-default button-aqua" ng-click="addItem()">Add new</button>
+                  </span>
+                </div>
+              </form>
+              <div class="list-group items-list">
+                <div ng-repeat="item in items" class="item-container  ng-class:{ 'item-container-selected': selectedIndex === $index }">
+                  <a href="#{{$index}}" class="list-group-item item-in-list" ng-click="selectItem($index)">
+                    <div class="row">
+                      <div class="col-xs-9 left-col-adjust">
+                        <span class="item-name">{{ item.name }}</span>
+                        <span class="badge comments-count">{{ item.comments.length }}</span>
+                      </div>
+                      <div class="col-xs-3 align-right">
+                        <button class="btn btn-default button-pink" ng-click="delItem($index)">Delete</button>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="local-storage">
+                <span>local storage options:</span><br>
+                <div class="btn-group">
+                 <button type="button" class="btn btn-default button-storage" ng-click="toLocalStorage()">save to</button>
+                 <button type="button" class="btn btn-default button-storage" ng-click="fromLocalStorage()">restore from</button>
+               </div>
+              </div>
+            </div>
+          </div> <!-- closing column-box -->
+        </div> <!-- closing "items" column-->
+        <div class="col-sm-6 column-for-comments">
+          <div class="column-box" ng-show="selectedIndex != undefined" id="comments-box">
+
+            <div class="heading" id="comments">
+              <h2>Comments #{{selectedIndex+1}}</h2>
+            </div>
+            <ul class="list-group" id="comments-list">
+              <li class="list-group-item comment-in-list" ng-repeat="comment in itemComments">
+                <div class="media">
+                  <div class="media-left">
+                    <div ng-class-odd="'avatar-odd'" ng-class-even="'avatar-even'">
+                    </div>
+                  </div>
+                  <div class="media-body">
+                    <p lang="en">{{ comment.comment }}</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="comment-in-list">
+              <div class="media">
+                <div class="media-left">
+                  <div class="avatar-grey">
+                  </div>
+                </div>
+                <div class="media-body">
+                  <form name="my_comment" novalidate>
+                    <div class="form-group comment-form">
+                      <label for="comment"></label>
+                        <textarea class="enter-comment" rows="5" ng-model="newComment" ng-keypress="addComment($event)">
+                        </textarea>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- .container-fluid closing -->
+
+    <!-- AngularJS modules -->
+    <script src="js/app.js"></script>
+
+    <!-- AngularJS controllers -->
+    <script src="js/controllers/MainController.js"></script>
+  </body>
+</html>
